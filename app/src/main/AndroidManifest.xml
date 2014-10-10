@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nullcognition.learningandroidintents" >
+<manifest
+	package="com.nullcognition.learningandroidintents"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	>
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.nullcognition.learningandroidintents.ActivityMain"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+		android:allowBackup="true"
+		android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme"
+		>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ActivityFromIntent"
-            android:label="@string/title_activity_my" >
-        </activity>
-    </application>
+		<activity
+			android:name="com.nullcognition.learningandroidintents.ActivityMain"
+			android:label="@string/app_name"
+			>
+
+			<intent-filter>
+
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+
+			</intent-filter>
+
+		</activity>
+
+		<activity
+			android:name=".ActivityFromIntent"
+			android:label="@string/title_activity_my"
+			>
+
+			<intent-filter>
+
+				<action android:name="android.intent.action.SEND"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+
+			</intent-filter>
+
+		</activity>
+
+	</application>
 
 </manifest>
