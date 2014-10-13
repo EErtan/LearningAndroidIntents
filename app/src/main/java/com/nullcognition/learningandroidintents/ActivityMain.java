@@ -8,6 +8,10 @@ import android.view.MenuItem;
 
 public class ActivityMain extends Activity {
 
+  public final int blueToothDiscoverableCode = 1001;
+  int blueToothRequestCode = 101;
+  com.nullcognition.learningandroidintents.BluetoothStateReciever btsr;
+
   @Override
   protected void onCreate(Bundle savedInstanceState){
 	super.onCreate(savedInstanceState);
@@ -45,6 +49,16 @@ public class ActivityMain extends Activity {
 		return true;
 	  }
 	});
+
+	initBluetooth();
+
+	blueToothDiscoverable();
+  }
+
+  @Override
+  protected void onPause(){
+	super.onPause();
+	unregisterReceiver(btsr);
   }
 
   @Override
@@ -80,8 +94,95 @@ public class ActivityMain extends Activity {
 	  android.widget.Toast.makeText(this, "ok", android.widget.Toast.LENGTH_SHORT).show();
 	  //new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("http://www.google.ca/"));
 	}
+	else if(requestCode == blueToothRequestCode && resultCode == android.app.Activity.RESULT_OK){
+	  android.widget.Toast.makeText(this, "BLUETOOTH ACTIVATED!", android.widget.Toast.LENGTH_SHORT).show();
+	}
+	else if(requestCode == blueToothDiscoverableCode && resultCode == android.app.Activity.RESULT_OK){
+	  android.widget.Toast.makeText(this, "BLUETOOTH Discovered!", android.widget.Toast.LENGTH_SHORT).show();
+	}
+
 	if(resultCode == RESULT_CANCELED){
 	  android.widget.Toast.makeText(this, "not ok", android.widget.Toast.LENGTH_SHORT).show();
 	}
   }
+
+  private void initBluetooth(){
+	btsr = new BluetoothStateReciever();
+	registerReceiver(btsr, new android.content.IntentFilter(android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE));
+
+	String enableBluetooth = android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE;
+	android.content.Intent intentBluetooth = new android.content.Intent(enableBluetooth);
+	startActivityForResult(intentBluetooth, blueToothRequestCode);
+  }
+
+  private void blueToothDiscoverable(){
+
+	registerReceiver(new android.content.BroadcastReceiver() {
+
+	  @Override
+	  public void onReceive(android.content.Context context, android.content.Intent intent){
+
+		String prevStateExtra = android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_SCAN_MODE;
+		String stateExtra = android.bluetooth.BluetoothAdapter.EXTRA_SCAN_MODE;
+		int state = intent.getIntExtra(stateExtra, - 1);
+		int previousState = intent.getIntExtra(prevStateExtra, - 1);
+	  }
+	}, new android.content.IntentFilter(android.bluetooth.BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
+
+	String aDiscoverable = android.bluetooth.BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE;
+	startActivityForResult(new android.content.Intent(aDiscoverable), blueToothDiscoverableCode);
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
