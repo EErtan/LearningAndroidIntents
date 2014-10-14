@@ -2,7 +2,7 @@ package com.nullcognition.learningandroidintents;
 /**
  * Created by ersin on 13/10/14 at 5:22 PM
  */
-public class BluetoothStateReciever extends android.content.BroadcastReceiver {
+public class BluetoothStateReceiver extends android.content.BroadcastReceiver {
 
   @Override
   public void onReceive(android.content.Context context, android.content.Intent intent){

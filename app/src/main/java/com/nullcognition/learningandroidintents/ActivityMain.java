@@ -10,7 +10,7 @@ public class ActivityMain extends Activity {
 
   public final int blueToothDiscoverableCode = 1001;
   int blueToothRequestCode = 101;
-  com.nullcognition.learningandroidintents.BluetoothStateReciever btsr;
+  com.nullcognition.learningandroidintents.BluetoothStateReceiver btsr;
 
   @Override
   protected void onCreate(Bundle savedInstanceState){
@@ -47,6 +47,17 @@ public class ActivityMain extends Activity {
 		stopSer.putExtra("stopSer", "value");
 		stopService(stopSer);
 		return true;
+	  }
+	});
+
+	android.widget.Button wifi = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.wifi);
+	wifi.setOnClickListener(new android.view.View.OnClickListener() {
+
+	  @Override
+	  public void onClick(android.view.View inView){
+		android.content.Intent wifi = new android.content.Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+		wifi.putExtra("wifi", "value");
+		startActivity(wifi);
 	  }
 	});
 
@@ -107,7 +118,7 @@ public class ActivityMain extends Activity {
   }
 
   private void initBluetooth(){
-	btsr = new BluetoothStateReciever();
+	btsr = new BluetoothStateReceiver();
 	registerReceiver(btsr, new android.content.IntentFilter(android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE));
 
 	String enableBluetooth = android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE;

@@ -35,4 +35,14 @@
 		android:text="Start/Stop-Activity"
 		/>
 
+	<Button
+		android:id="@+id/wifi"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:layout_below="@+id/button2"
+		android:text="Wifi"
+		/>
+
 </RelativeLayout>
