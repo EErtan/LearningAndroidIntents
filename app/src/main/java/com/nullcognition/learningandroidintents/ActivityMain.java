@@ -27,7 +27,7 @@ public class ActivityMain extends Activity {
 	  }
 	});
 
-	android.widget.Button button2 = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.button2);
+	android.widget.Button button2 = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.takePic);
 	button2.setOnClickListener(new android.view.View.OnClickListener() {
 
 	  @Override

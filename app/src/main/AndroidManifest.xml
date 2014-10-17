@@ -4,6 +4,12 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	>
 
+
+	<uses-permission android:name="android.premission.RECORD_AUDIO"/>
+	<uses-permission android:name="and android.permission.RECORD_VIDEO"/>
+
+	<uses-feature android:name="android.hardware.Camera"/>
+
 	<uses-permission android:name="android.permission.BLUETOOTH"/>
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 

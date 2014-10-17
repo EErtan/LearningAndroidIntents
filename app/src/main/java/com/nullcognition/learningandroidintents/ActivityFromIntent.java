@@ -10,6 +10,8 @@ public class ActivityFromIntent extends Activity {
 
   private static final int requestCode = 2;
   android.widget.ImageView imageView;
+  private static final int TAKE_IMAGE_REQUESTCODE = 11;
+  private static final int TAKE_VIDEO_REQUESTCODE = 1101;
 
   @Override
   protected void onCreate(Bundle savedInstanceState){
@@ -30,6 +32,29 @@ public class ActivityFromIntent extends Activity {
 		intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
 		intent.addCategory(android.content.Intent.CATEGORY_OPENABLE);
 		startActivityForResult(intent, requestCode);
+	  }
+	});
+
+	// use mediaPlayer and mediaRecorder for fine grain control of the data
+
+	android.widget.Button takePic = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.takePic);
+	takePic.setOnClickListener(new android.view.View.OnClickListener() {
+
+	  @Override
+	  public void onClick(android.view.View inView){
+		android.content.Intent intent = new android.content.Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(intent, TAKE_IMAGE_REQUESTCODE);
+	  }
+	});
+
+	android.widget.Button vid = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.vid);
+	vid.setOnClickListener(new android.view.View.OnClickListener() {
+
+	  @Override
+	  public void onClick(android.view.View inView){
+		android.content.Intent intent = new android.content.Intent(android.provider.MediaStore.ACTION_VIDEO_CAPTURE);
+		intent.putExtra(android.provider.MediaStore.EXTRA_VIDEO_QUALITY, 1);
+		startActivityForResult(intent, TAKE_VIDEO_REQUESTCODE);
 	  }
 	});
   }
@@ -81,6 +106,21 @@ public class ActivityFromIntent extends Activity {
 	super.onActivityResult(inRequestCode, resultCode, data);
 	java.io.InputStream stream = null;
 	android.graphics.Bitmap bitmap = null;
+
+	if(inRequestCode == TAKE_IMAGE_REQUESTCODE){
+	  if(resultCode == android.app.Activity.RESULT_OK){
+		android.graphics.Bitmap bitmap1 = (android.graphics.Bitmap)data.getExtras().get("data");
+		((android.widget.ImageView)findViewById(com.nullcognition.learningandroidintents.R.id.imageView2)).setImageBitmap(bitmap1);
+	  }
+	}
+	if(inRequestCode == TAKE_VIDEO_REQUESTCODE){
+	  if(resultCode == android.app.Activity.RESULT_OK){
+		android.net.Uri uri = data.getData();
+		android.widget.VideoView vv = (android.widget.VideoView)findViewById(com.nullcognition.learningandroidintents.R.id.videoView);
+		vv.setVideoURI(uri);
+		vv.start();
+	  }
+	}
 
 	if(inRequestCode == requestCode && resultCode == android.app.Activity.RESULT_OK){
 	  if(bitmap != null){bitmap.recycle();}
