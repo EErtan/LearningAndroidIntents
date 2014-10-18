@@ -45,4 +45,24 @@
 		android:text="Wifi"
 		/>
 
+	<Button
+		style="?android:attr/buttonStyleSmall"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="voiceRecognition"
+		android:id="@+id/buttonVoiceRecognition"
+		android:layout_below="@+id/wifi"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		/>
+
+	<EditText
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/editText"
+		android:layout_below="@+id/buttonVoiceRecognition"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		/>
+
 </RelativeLayout>
