@@ -82,7 +82,42 @@ public class ActivityMain extends Activity {
 	initBluetooth();
 
 	blueToothDiscoverable();
+
+	proximityAlert();
   }
+
+  private void proximityAlert(){
+
+	String DistanceAlert = "distance.proximity.alert";
+	String locationService = android.content.Context.LOCATION_SERVICE;
+	android.location.LocationManager lm;
+	lm = (android.location.LocationManager)getSystemService(locationService);
+
+	double lat = 23.234; // set these to be dynamic based on the users location and you have a field around you
+	double longi = 34.432;
+	float radius = 45f;
+	long expire = - 1;
+
+	android.content.Intent intent = new android.content.Intent(DistanceAlert);
+	android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, - 1, intent, 0);
+	lm.addProximityAlert(lat, longi, radius, expire, pendingIntent);
+
+	//registar for receiver, dynamic registration
+	android.content.IntentFilter intentFilter = new android.content.IntentFilter(DistanceAlert);
+	registerReceiver(new com.nullcognition.learningandroidintents.ActivityMain.ProximityAlertReceiver(), intentFilter);
+
+  }
+
+  public class ProximityAlertReceiver extends android.content.BroadcastReceiver {
+
+	@Override
+	public void onReceive(android.content.Context context, android.content.Intent intent){
+	  Boolean isEntered = intent.getBooleanExtra(android.location.LocationManager.KEY_PROXIMITY_ENTERING, false);
+	  if(isEntered){ android.widget.Toast.makeText(context, "Device has Entered!", android.widget.Toast.LENGTH_SHORT).show(); }
+	  else{ android.widget.Toast.makeText(context, "Device has Left!", android.widget.Toast.LENGTH_SHORT).show(); }
+	}
+  }
+
 
   final int valttsdata = 14;
 
