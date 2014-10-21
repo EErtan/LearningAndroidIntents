@@ -18,6 +18,9 @@ public class ActivityFromIntent extends Activity {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_fromintent);
 
+	String s = getIntent().getStringExtra("string1");
+	String ss = getIntent().getExtras().getString("string2");
+
 	receiveIntent();
 
 	imageView = (android.widget.ImageView)findViewById(com.nullcognition.learningandroidintents.R.id.imageView);

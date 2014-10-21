@@ -77,6 +77,24 @@ public class ActivityMain extends Activity {
 	  }
 	});
 
+	android.widget.Button standardIntent = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.standardIntent);
+	standardIntent.setOnClickListener(new android.view.View.OnClickListener() {
+
+	  @Override
+	  public void onClick(android.view.View inView){
+		android.content.Intent intent = new android.content.Intent(getApplicationContext(), ActivityFromIntent.class);
+		intent.putExtra("string1", "string1");
+
+		Bundle bundle = new android.os.Bundle();
+		bundle.putString("string2", "string2");
+		Parc p = new com.nullcognition.learningandroidintents.ActivityMain.Parc();
+		bundle.putParcelable("parc", p);
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+	  }
+	});
+
 	checkForTTS();
 
 	initBluetooth();
@@ -84,6 +102,39 @@ public class ActivityMain extends Activity {
 	blueToothDiscoverable();
 
 	proximityAlert();
+  }
+
+  static class Parc implements android.os.Parcelable { // may be used to transfer single or array of parcels
+
+	int    i = 1;
+	String s = "s";
+
+	public Parc(){}
+
+	public Parc(android.os.Parcel inParcel){
+	  i = inParcel.readInt();
+	  s = inParcel.readString();
+	}
+
+	public void setS(String inS){ s = inS; }
+
+	public void setI(int inI){ i = inI; }
+
+	public String getS(){ return s; }
+
+	public int getI(){ return i; }
+
+
+	@Override
+	public int describeContents(){
+	  return 0;
+	}
+
+	@Override
+	public void writeToParcel(android.os.Parcel dest, int flags){
+	  dest.writeString(s);
+	  dest.writeInt(i);
+	}
   }
 
   private void proximityAlert(){
