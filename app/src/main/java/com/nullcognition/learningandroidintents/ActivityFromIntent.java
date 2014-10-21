@@ -20,6 +20,7 @@ public class ActivityFromIntent extends Activity {
 
 	String s = getIntent().getStringExtra("string1");
 	String ss = getIntent().getExtras().getString("string2");
+	com.nullcognition.learningandroidintents.ActivityMain.Parc p = getIntent().getParcelableExtra("parc");
 
 	receiveIntent();
 
