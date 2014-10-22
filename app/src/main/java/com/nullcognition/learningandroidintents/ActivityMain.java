@@ -104,7 +104,28 @@ public class ActivityMain extends Activity {
 	proximityAlert();
   }
 
-  static class Parc implements android.os.Parcelable { // may be used to transfer single or array of parcels
+  public void implicitIntents(){
+	float latitude = 3.32437f, logitude = 3.473f;
+	String uri = "geo:" + latitude + "," + logitude;
+	startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(uri))); // google maps
+
+	String url = "http://www.google.com";
+	startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))); // browser
+
+	android.content.Intent email = new android.content.Intent(android.content.Intent.ACTION_SEND);
+	email.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"john@domain.com"}); // recipients
+	email.putExtra(android.content.Intent.EXTRA_SUBJECT, "Email subject");
+	email.putExtra(android.content.Intent.EXTRA_TEXT, "message body");
+	startActivity(email);
+
+	android.net.Uri numberToCall = android.net.Uri.parse("tel:5555555");
+	startActivity(new android.content.Intent(android.content.Intent.ACTION_DIAL, numberToCall));
+
+
+  }
+
+  static class Parc implements android.os.Parcelable,// may be used to transfer single or array of parcels
+							   java.io.Serializable { // for serializable example
 
 	int    i = 1;
 	String s = "s";
@@ -135,6 +156,33 @@ public class ActivityMain extends Activity {
 	  dest.writeString(s);
 	  dest.writeInt(i);
 	}
+  }
+
+  public void serializeMe(){ // converts the object to a byte array
+	Parc parc = new com.nullcognition.learningandroidintents.ActivityMain.Parc();
+	parc.setI(5);
+	parc.setS("string");
+	try{
+	  java.io.FileOutputStream fileOutputStream = new java.io.FileOutputStream("/tmp/serializedObject.ser");
+	  java.io.ObjectOutputStream objectOutputStream = new java.io.ObjectOutputStream(fileOutputStream);
+	  objectOutputStream.writeObject(parc);
+	  objectOutputStream.close();
+	  fileOutputStream.close();
+	}
+	catch(java.io.IOException e){e.printStackTrace();}
+  }
+
+  public void deserializeMe(){
+	Parc parc = null;
+	try{
+	  java.io.FileInputStream fileInputStream = new java.io.FileInputStream("/tmp/serializedObject.ser");
+	  java.io.ObjectInputStream objectInputStream = new java.io.ObjectInputStream(fileInputStream);
+	  parc = (Parc)objectInputStream.readObject();
+	  objectInputStream.close();
+	  fileInputStream.close();
+	}
+	catch(java.io.IOException e){e.printStackTrace();}
+	catch(ClassNotFoundException c){c.printStackTrace();}
   }
 
   private void proximityAlert(){
