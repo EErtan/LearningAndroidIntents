@@ -119,10 +119,68 @@ public class ActivityMain extends Activity {
 	startActivity(email);
 
 	android.net.Uri numberToCall = android.net.Uri.parse("tel:5555555");
-	startActivity(new android.content.Intent(android.content.Intent.ACTION_DIAL, numberToCall));
+	startActivity(new android.content.Intent(android.content.Intent.ACTION_DIAL, numberToCall)); // also can use ACTION_CALL, but with restrictions
+	// <uses-premission android:name="android.permission.CALL_PHONE"/>
 
+	android.content.Intent smsIntent = new android.content.Intent(android.content.Intent.ACTION_SEND);
+	smsIntent.putExtra("smsbody", "my sms text");
+	smsIntent.setType("image/png");
+	startActivity(smsIntent); // since sms(short message service) and mms (multimedia message service) are not supported by default, you must
+	// use in implicit intent,
+
+	String phoneNum = "sms:" + "5555555555";
+	android.net.Uri phoneNumUri = android.net.Uri.parse(phoneNum);
+	android.content.Intent smsInt = new android.content.Intent(android.content.Intent.ACTION_SENDTO,
+															   phoneNumUri); // using sendto and including the sms: as part
+	// of the uri you can use sms supported applications to send the data, to specify the recipient
+	smsInt.putExtra("smsbody", "text");
+	startActivity(smsInt);
+
+	android.net.Uri myMediaUri = android.net.Uri.parse("content://media/external/images/somefile");
+	android.content.Intent mms = new android.content.Intent(android.content.Intent.ACTION_SEND);
+	mms.putExtra("mmsbody", "text");
+	mms.setType("image/png");
+	mms.putExtra(android.content.Intent.EXTRA_STREAM, myMediaUri);
+	startActivity(mms);
+  }
+
+  public void smsMan(){
+
+	// <uses-permission android:name="android.permission.SEND_SMS"/>
+
+	registerReceiver(new android.content.BroadcastReceiver() {
+
+	  @Override
+	  public void onReceive(android.content.Context context, android.content.Intent intent){
+		if(getResultCode() == android.app.Activity.RESULT_OK){
+		  // sent succesfully
+		}
+		else{}//pending...
+	  }
+	}, new android.content.IntentFilter("sent_sms_action"));
+
+	registerReceiver(new android.content.BroadcastReceiver() {
+
+	  @Override
+	  public void onReceive(android.content.Context context, android.content.Intent intent){
+		// delivered so update ui or notify
+	  }
+	}, new android.content.IntentFilter("delivered_sms_action"));
+
+	// sent intent
+	android.content.Intent sentIntent = new android.content.Intent("sent_sms_action");
+	android.app.PendingIntent sentPendingIntent = android.app.PendingIntent.getBroadcast(getApplicationContext(), 00, sentIntent, 0);
+
+	// delivery intent
+	android.content.Intent deliveryIntent = new android.content.Intent("delivered_sms_action");
+	android.app.PendingIntent deliveredPendingIntent = android.app.PendingIntent.getBroadcast(getApplicationContext(), 0, deliveryIntent, 0);
+
+	android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+	smsManager.sendTextMessage("tel:5555555555", null, " heleeeeeoooooooooooooo", sentPendingIntent, deliveredPendingIntent);
 
   }
+
+
 
   static class Parc implements android.os.Parcelable,// may be used to transfer single or array of parcels
 							   java.io.Serializable { // for serializable example
