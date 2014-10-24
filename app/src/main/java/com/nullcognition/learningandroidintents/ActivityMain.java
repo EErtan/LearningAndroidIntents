@@ -186,16 +186,22 @@ public class ActivityMain extends Activity {
 
 	public void onReceive(android.content.Context _context, android.content.Intent _intent){
 	  if(_intent.getAction().equals(SMS_RECEIVED)){
-// SMS Received. Write your code here.
 		Bundle msgBundle = _intent.getExtras();
-		getMessageData(msgBundle);
+		getMessageData(msgBundle); // use ddms -> emulator control tab to send a sms via incomming number
 	  }
 	}
   }
 
+  {
+	final String SMS_RECEIVED = "android.provider.android.provider.Telephony.SMS_RECEIVED";
+	android.content.IntentFilter filter = new android.content.IntentFilter(SMS_RECEIVED);
+	android.content.BroadcastReceiver broadcastReceiver = new com.nullcognition.learningandroidintents.ActivityMain.IncomingMsgReceiver();
+	registerReceiver(broadcastReceiver, filter);
+  }
+
   private void getMessageData(android.os.Bundle inMsgBundle){
 	if(inMsgBundle != null){
-	  Object[] p = (Object[])inMsgBundle.get("p");
+	  Object[] p = (Object[])inMsgBundle.get("pdus");
 	  android.telephony.SmsMessage[] messages = new android.telephony.SmsMessage[p.length];
 	  for(int i = 0; i < p.length; ++ i){
 		messages[i] = android.telephony.SmsMessage.createFromPdu((byte[])p[i]);
