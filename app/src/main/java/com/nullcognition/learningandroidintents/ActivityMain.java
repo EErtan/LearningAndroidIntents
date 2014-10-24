@@ -289,11 +289,11 @@ public class ActivityMain extends Activity {
 
 	//registar for receiver, dynamic registration
 	android.content.IntentFilter intentFilter = new android.content.IntentFilter(DistanceAlert);
-	registerReceiver(new com.nullcognition.learningandroidintents.ProximityAlertReceiver(), intentFilter);
+	registerReceiver(new com.nullcognition.learningandroidintents.ActivityMain.ProximityAlertReceiver(), intentFilter);
 
   }
 
-  public class ProximityAlertReceiver extends android.content.BroadcastReceiver {
+  public static class ProximityAlertReceiver extends android.content.BroadcastReceiver {
 
 	@Override
 	public void onReceive(android.content.Context context, android.content.Intent intent){
