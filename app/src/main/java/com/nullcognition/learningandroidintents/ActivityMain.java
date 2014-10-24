@@ -180,6 +180,34 @@ public class ActivityMain extends Activity {
 
   }
 
+  public class IncomingMsgReceiver extends android.content.BroadcastReceiver {
+
+	private static final String SMS_RECEIVED = "android.provider.android.provider.Telephony.SMS_RECEIVED"; // unsupported hidden message
+
+	public void onReceive(android.content.Context _context, android.content.Intent _intent){
+	  if(_intent.getAction().equals(SMS_RECEIVED)){
+// SMS Received. Write your code here.
+		Bundle msgBundle = _intent.getExtras();
+		getMessageData(msgBundle);
+	  }
+	}
+  }
+
+  private void getMessageData(android.os.Bundle inMsgBundle){
+	if(inMsgBundle != null){
+	  Object[] p = (Object[])inMsgBundle.get("p");
+	  android.telephony.SmsMessage[] messages = new android.telephony.SmsMessage[p.length];
+	  for(int i = 0; i < p.length; ++ i){
+		messages[i] = android.telephony.SmsMessage.createFromPdu((byte[])p[i]);
+		for(android.telephony.SmsMessage m : messages){
+		  String mes = m.getMessageBody();
+		  String to = m.getOriginatingAddress();
+		  String time = Long.toString(m.getTimestampMillis());
+		}
+
+	  }
+	}
+  }
 
 
   static class Parc implements android.os.Parcelable,// may be used to transfer single or array of parcels
@@ -261,7 +289,7 @@ public class ActivityMain extends Activity {
 
 	//registar for receiver, dynamic registration
 	android.content.IntentFilter intentFilter = new android.content.IntentFilter(DistanceAlert);
-	registerReceiver(new com.nullcognition.learningandroidintents.ActivityMain.ProximityAlertReceiver(), intentFilter);
+	registerReceiver(new com.nullcognition.learningandroidintents.ProximityAlertReceiver(), intentFilter);
 
   }
 
