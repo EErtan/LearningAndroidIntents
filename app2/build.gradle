@@ -5,8 +5,8 @@ android {
     buildToolsVersion "21.0.2"
 
     defaultConfig {
-        applicationId "com.nullcognition.learningandroidintents"
-        minSdkVersion 16
+        applicationId "com.nullcognition.app2"
+        minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

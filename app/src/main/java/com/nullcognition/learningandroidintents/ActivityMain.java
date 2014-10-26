@@ -5,18 +5,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 public class ActivityMain extends Activity {
 
   public final int blueToothDiscoverableCode = 1001;
   int blueToothRequestCode = 101;
-  int speechRequestCode = 123;
+  int speechRequestCode    = 123;
   com.nullcognition.learningandroidintents.BluetoothStateReceiver btsr;
 
   @Override
   protected void onCreate(Bundle savedInstanceState){
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
+
+	{
+	  final String SMS_RECEIVED = "android.provider.android.provider.Telephony.SMS_RECEIVED";
+	  android.content.IntentFilter filter = new android.content.IntentFilter(SMS_RECEIVED);
+	  android.content.BroadcastReceiver broadcastReceiver = new com.nullcognition.learningandroidintents.ActivityMain.IncomingMsgReceiver();
+	  registerReceiver(broadcastReceiver, filter);
+	}
+
 	android.widget.Button button = (android.widget.Button)findViewById(com.nullcognition.learningandroidintents.R.id.button);
 	button.setOnClickListener(new android.view.View.OnClickListener() {
 
@@ -70,7 +77,7 @@ public class ActivityMain extends Activity {
 	  public void onClick(android.view.View inView){
 		android.content.Intent i = new android.content.Intent(android.speech.RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		i.putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL, android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		i.putExtra(android.speech.RecognizerIntent.EXTRA_PROMPT, "Speaking");
+		i.putExtra(android.speech.RecognizerIntent.EXTRA_PROMPT, "Speak");
 		i.putExtra(android.speech.RecognizerIntent.EXTRA_MAX_RESULTS, 1);
 		i.putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE, java.util.Locale.ENGLISH);
 		startActivityForResult(i, speechRequestCode); // active internet connection is required
@@ -192,12 +199,6 @@ public class ActivityMain extends Activity {
 	}
   }
 
-  {
-	final String SMS_RECEIVED = "android.provider.android.provider.Telephony.SMS_RECEIVED";
-	android.content.IntentFilter filter = new android.content.IntentFilter(SMS_RECEIVED);
-	android.content.BroadcastReceiver broadcastReceiver = new com.nullcognition.learningandroidintents.ActivityMain.IncomingMsgReceiver();
-	registerReceiver(broadcastReceiver, filter);
-  }
 
   private void getMessageData(android.os.Bundle inMsgBundle){
 	if(inMsgBundle != null){
@@ -344,6 +345,10 @@ public class ActivityMain extends Activity {
 	  in.putExtra(android.content.Intent.EXTRA_TEXT, "abc");
 	  in.setType("text/html"); // image/png image/*
 	  startActivity(android.content.Intent.createChooser(in, "Share via...")); // choose possible activities to use
+	  return true;
+	}
+	if(id == R.id.action_notification){
+
 	  return true;
 	}
 
