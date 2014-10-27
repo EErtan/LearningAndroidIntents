@@ -6,14 +6,47 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements com.nullcognition.app2.FragmentAlertDialog.OnFragmentAlertDialogInteractionListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState){
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
+
+	broadcastLowBattery();
+
+	sendCustomBroadCast();
   }
 
+  public class OurCustomReceiver extends android.content.BroadcastReceiver {
+
+	@Override
+	public void onReceive(android.content.Context context, android.content.Intent intent){
+	  if(intent.getAction() == "com.nullocgnition.app2.myActionToBeBroadcast"){
+		android.widget.Toast.makeText(context, "Broadcast Intent Detected.", android.widget.Toast.LENGTH_LONG).show();
+	  }
+	}
+  }
+
+  com.nullcognition.app2.LowBattery lowBattery;
+
+  private void broadcastLowBattery(){
+	android.content.IntentFilter intentFilter = new android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_LOW);
+	lowBattery = new LowBattery();
+	registerReceiver(lowBattery, intentFilter); // this is neat, assignment in the method parameter
+  }
+
+  public void sendCustomBroadCast(){
+	android.content.Intent intent = new android.content.Intent();
+	intent.setAction("com.nullocgnition.app2.myActionToBeBroadcast");
+	sendBroadcast(intent);
+  }
+
+  @Override
+  protected void onPause(){
+	super.onPause();
+	unregisterReceiver(lowBattery); // if done in manifest level then no need to unreg
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu){
@@ -46,9 +79,16 @@ public class MainActivity extends Activity {
 		android.content.Context.NOTIFICATION_SERVICE);
 	  mNotificationManager.notify(18, mBuilder.build());
 
+	  sendBroadcast(new android.content.Intent(android.content.Intent.ACTION_BATTERY_LOW));
+
 	  return true;
 	}
 
 	return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onAlertDialogFragmentInteraction(int buttonClicked){
+
   }
 }
