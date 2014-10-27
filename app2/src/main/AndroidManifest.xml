@@ -30,6 +30,8 @@
 			android:exported="true"
 			>
 		</receiver>
+
+
 		<receiver
 			android:name="com.nullcognition.app2.ScreenOffReceiver"
 			android:enabled="true"
@@ -50,6 +52,17 @@
 
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"/>
+			</intent-filter>
+
+		</receiver>
+		<receiver
+			android:name="com.nullcognition.app2.OurCustomReceiver"
+			android:enabled="true"
+			android:exported="true"
+			>
+
+			<intent-filter>
+				<action android:name="com.nullocgnition.anything.myActionToBeBroadcast"/>
 			</intent-filter>
 
 		</receiver>

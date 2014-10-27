@@ -18,15 +18,6 @@ public class MainActivity extends Activity implements com.nullcognition.app2.Fra
 	sendCustomBroadCast();
   }
 
-  public class OurCustomReceiver extends android.content.BroadcastReceiver {
-
-	@Override
-	public void onReceive(android.content.Context context, android.content.Intent intent){
-	  if(intent.getAction() == "com.nullocgnition.app2.myActionToBeBroadcast"){
-		android.widget.Toast.makeText(context, "Broadcast Intent Detected.", android.widget.Toast.LENGTH_LONG).show();
-	  }
-	}
-  }
 
   com.nullcognition.app2.LowBattery lowBattery;
 
@@ -38,7 +29,8 @@ public class MainActivity extends Activity implements com.nullcognition.app2.Fra
 
   public void sendCustomBroadCast(){
 	android.content.Intent intent = new android.content.Intent();
-	intent.setAction("com.nullocgnition.app2.myActionToBeBroadcast");
+	intent.setAction("com.nullocgnition.anything.myActionToBeBroadcast"); // note that anything works
+	// as long as it matches in the manifest and in the receiver
 	sendBroadcast(intent);
   }
 
