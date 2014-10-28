@@ -4,6 +4,8 @@
 	>
 
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+	<uses-permission android:name="android.permission.VIBRATE"/>
+
 
 	<application
 		android:allowBackup="true"
@@ -30,8 +32,6 @@
 			android:exported="true"
 			>
 		</receiver>
-
-
 		<receiver
 			android:name="com.nullcognition.app2.ScreenOffReceiver"
 			android:enabled="true"
@@ -49,22 +49,18 @@
 			android:enabled="true"
 			android:exported="true"
 			>
-
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"/>
 			</intent-filter>
-
 		</receiver>
 		<receiver
 			android:name="com.nullcognition.app2.OurCustomReceiver"
 			android:enabled="true"
 			android:exported="true"
 			>
-
 			<intent-filter>
 				<action android:name="com.nullocgnition.anything.myActionToBeBroadcast"/>
 			</intent-filter>
-
 		</receiver>
 
 		<service
@@ -73,6 +69,18 @@
 			android:exported="true"
 			>
 		</service>
+		<service
+			android:name="com.nullcognition.app2.MyIntentService"
+			android:exported="false"
+			>
+		</service>
+
+		<receiver
+			android:name="com.nullcognition.app2.PIBroadcastReceiver"
+			android:enabled="true"
+			android:exported="true"
+			>
+		</receiver>
 	</application>
 
 </manifest>

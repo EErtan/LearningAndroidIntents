@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity implements com.nullcognition.app2.FragmentAlertDialog.OnFragmentAlertDialogInteractionListener {
 
+  private int pendingIntentRequestCode = 111;
+
   @Override
   protected void onCreate(Bundle savedInstanceState){
 	super.onCreate(savedInstanceState);
@@ -16,6 +18,17 @@ public class MainActivity extends Activity implements com.nullcognition.app2.Fra
 	broadcastLowBattery();
 
 	sendCustomBroadCast();
+
+	usingPendingIntent();
+  }
+
+  private void usingPendingIntent(){
+
+	android.content.Intent intent = new android.content.Intent(this, PIBroadcastReceiver.class);
+	android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, pendingIntentRequestCode, intent, 0);
+
+	android.app.AlarmManager alarmManager = (android.app.AlarmManager)getSystemService(android.app.Activity.ALARM_SERVICE);
+	alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, 1000, pendingIntent);
   }
 
 
